@@ -1,0 +1,46 @@
+O:4:"wsdl":48:{s:4:"wsdl";s:77:"http://webservices.amazon.com/AWSECommerceService/US/AWSECommerceService.wsdl";s:7:"schemas";a:0:{}s:13:"currentSchema";N;s:7:"message";a:0:{}s:12:"complexTypes";a:0:{}s:8:"messages";a:0:{}s:14:"currentMessage";N;s:16:"currentOperation";N;s:9:"portTypes";a:0:{}s:15:"currentPortType";N;s:8:"bindings";a:0:{}s:14:"currentBinding";N;s:5:"ports";a:0:{}s:11:"currentPort";N;s:6:"opData";a:0:{}s:6:"status";s:0:"";s:13:"documentation";b:0;s:8:"endpoint";s:0:"";s:6:"import";a:0:{}s:6:"parser";N;s:8:"position";i:0;s:5:"depth";i:0;s:11:"depth_array";a:0:{}s:9:"proxyhost";s:0:"";s:9:"proxyport";s:0:"";s:13:"proxyusername";s:0:"";s:13:"proxypassword";s:0:"";s:7:"timeout";i:0;s:16:"response_timeout";i:30;s:12:"curl_options";a:0:{}s:8:"use_curl";b:0;s:8:"username";s:0:"";s:8:"password";s:0:"";s:8:"authtype";s:0:"";s:11:"certRequest";a:0:{}s:5:"title";s:6:"NuSOAP";s:7:"version";s:5:"0.9.5";s:8:"revision";s:18:"$Revision: 1.123 $";s:9:"error_str";s:198:"Getting http://webservices.amazon.com/AWSECommerceService/US/AWSECommerceService.wsdl - HTTP ERROR: Unsupported HTTP response status 404 Not Found (soapclient->response has contents of the response)";s:9:"debug_str";s:4302:"2018-01-02 17:57:01.317024 wsdl: ctor wsdl=http://webservices.amazon.com/AWSECommerceService/US/AWSECommerceService.wsdl timeout=0 response_timeout=30
+2018-01-02 17:57:01.317164 wsdl: parse and process WSDL path=http://webservices.amazon.com/AWSECommerceService/US/AWSECommerceService.wsdl
+2018-01-02 17:57:01.317194 wsdl: parse WSDL at path=http://webservices.amazon.com/AWSECommerceService/US/AWSECommerceService.wsdl
+2018-01-02 17:57:01.317235 wsdl: getting WSDL http(s) URL http://webservices.amazon.com/AWSECommerceService/US/AWSECommerceService.wsdl
+2018-01-02 17:57:01.317266 soap_transport_http: ctor url=http://webservices.amazon.com/AWSECommerceService/US/AWSECommerceService.wsdl use_curl= curl_options:
+array(0) {
+}
+2018-01-02 17:57:01.317320 soap_transport_http: parsed URL scheme = http
+2018-01-02 17:57:01.317335 soap_transport_http: parsed URL host = webservices.amazon.com
+2018-01-02 17:57:01.317347 soap_transport_http: parsed URL path = /AWSECommerceService/US/AWSECommerceService.wsdl
+2018-01-02 17:57:01.317368 soap_transport_http: set header Host: webservices.amazon.com
+2018-01-02 17:57:01.317568 soap_transport_http: set header User-Agent: NuSOAP/0.9.5 (1.123)
+2018-01-02 17:57:01.317603 soap_transport_http: set header Accept-Encoding: gzip, deflate
+2018-01-02 17:57:01.317620 soap_transport_http: set header Connection: close
+2018-01-02 17:57:01.317641 soap_transport_http: entered send() with data of length: 0
+2018-01-02 17:57:01.317671 soap_transport_http: connect connection_timeout 0, response_timeout 30, scheme http, host webservices.amazon.com, port 80
+2018-01-02 17:57:01.317695 soap_transport_http: calling fsockopen with host webservices.amazon.com connection_timeout 0
+2018-01-02 17:57:01.747707 soap_transport_http: set response timeout to 30
+2018-01-02 17:57:01.747810 soap_transport_http: socket connected
+2018-01-02 17:57:01.747853 soap_transport_http: HTTP request: GET /AWSECommerceService/US/AWSECommerceService.wsdl HTTP/1.1
+2018-01-02 17:57:01.747869 soap_transport_http: HTTP header: Host: webservices.amazon.com
+2018-01-02 17:57:01.747879 soap_transport_http: HTTP header: User-Agent: NuSOAP/0.9.5 (1.123)
+2018-01-02 17:57:01.747887 soap_transport_http: HTTP header: Accept-Encoding: gzip, deflate
+2018-01-02 17:57:01.747895 soap_transport_http: HTTP header: Connection: close
+2018-01-02 17:57:01.747967 soap_transport_http: wrote data to socket, length = 180
+2018-01-02 17:57:01.878840 soap_transport_http: read line of 24 bytes: HTTP/1.1 404 Not Found
+2018-01-02 17:57:01.878953 soap_transport_http: read line of 37 bytes: Date: Tue, 02 Jan 2018 20:57:01 GMT
+2018-01-02 17:57:01.878976 soap_transport_http: read line of 27 bytes: Server: Apache-Coyote/1.1
+2018-01-02 17:57:01.878994 soap_transport_http: read line of 22 bytes: Accept-Ranges: bytes
+2018-01-02 17:57:01.879012 soap_transport_http: read line of 34 bytes: ETag: W/"387-1514200901000-gzip"
+2018-01-02 17:57:01.879037 soap_transport_http: read line of 46 bytes: Last-Modified: Mon, 25 Dec 2017 11:21:41 GMT
+2018-01-02 17:57:01.879055 soap_transport_http: read line of 25 bytes: Content-Type: text/html
+2018-01-02 17:57:01.879074 soap_transport_http: read line of 34 bytes: Vary: Accept-Encoding,User-Agent
+2018-01-02 17:57:01.879093 soap_transport_http: read line of 24 bytes: Content-Encoding: gzip
+2018-01-02 17:57:01.879216 soap_transport_http: read line of 21 bytes: Content-Length: 275
+2018-01-02 17:57:01.879242 soap_transport_http: read line of 2 bytes: 
+2018-01-02 17:57:01.879290 soap_transport_http: found end of headers after length 296
+2018-01-02 17:57:01.879444 soap_transport_http: want to read content of length 275
+2018-01-02 17:57:01.879485 soap_transport_http: read buffer of 275 bytes
+2018-01-02 17:57:01.879513 soap_transport_http: read to EOF
+2018-01-02 17:57:01.879527 soap_transport_http: read body of length 275
+2018-01-02 17:57:01.879541 soap_transport_http: received a total of 571 bytes of data from server
+2018-01-02 17:57:01.879676 soap_transport_http: closed socket
+2018-01-02 17:57:01.879729 soap_transport_http: end of send()
+2018-01-02 17:57:01.879797 wsdl: Getting http://webservices.amazon.com/AWSECommerceService/US/AWSECommerceService.wsdl - HTTP ERROR: Unsupported HTTP response status 404 Not Found (soapclient->response has contents of the response)
+";s:12:"charencoding";b:1;s:10:"debugLevel";i:9;s:16:"XMLSchemaVersion";s:32:"http://www.w3.org/2001/XMLSchema";s:16:"soap_defencoding";s:10:"ISO-8859-1";s:10:"namespaces";a:4:{s:8:"SOAP-ENV";s:41:"http://schemas.xmlsoap.org/soap/envelope/";s:3:"xsd";s:32:"http://www.w3.org/2001/XMLSchema";s:3:"xsi";s:41:"http://www.w3.org/2001/XMLSchema-instance";s:8:"SOAP-ENC";s:41:"http://schemas.xmlsoap.org/soap/encoding/";}s:14:"usedNamespaces";a:0:{}s:7:"typemap";a:6:{s:32:"http://www.w3.org/2001/XMLSchema";a:43:{s:6:"string";s:6:"string";s:7:"boolean";s:7:"boolean";s:5:"float";s:6:"double";s:6:"double";s:6:"double";s:7:"decimal";s:6:"double";s:8:"duration";s:0:"";s:8:"dateTime";s:6:"string";s:4:"time";s:6:"string";s:4:"date";s:6:"string";s:10:"gYearMonth";s:0:"";s:5:"gYear";s:0:"";s:9:"gMonthDay";s:0:"";s:4:"gDay";s:0:"";s:6:"gMonth";s:0:"";s:9:"hexBinary";s:6:"string";s:12:"base64Binary";s:6:"string";s:7:"anyType";s:6:"string";s:13:"anySimpleType";s:6:"string";s:16:"normalizedString";s:6:"string";s:5:"token";s:6:"string";s:8:"language";s:0:"";s:7:"NMTOKEN";s:0:"";s:8:"NMTOKENS";s:0:"";s:4:"Name";s:0:"";s:6:"NCName";s:0:"";s:2:"ID";s:0:"";s:5:"IDREF";s:0:"";s:6:"IDREFS";s:0:"";s:6:"ENTITY";s:0:"";s:8:"ENTITIES";s:0:"";s:7:"integer";s:7:"integer";s:18:"nonPositiveInteger";s:7:"integer";s:15:"negativeInteger";s:7:"integer";s:4:"long";s:7:"integer";s:3:"int";s:7:"integer";s:5:"short";s:7:"integer";s:4:"byte";s:7:"integer";s:18:"nonNegativeInteger";s:7:"integer";s:12:"unsignedLong";s:0:"";s:11:"unsignedInt";s:0:"";s:13:"unsignedShort";s:0:"";s:12:"unsignedByte";s:0:"";s:15:"positiveInteger";s:0:"";}s:35:"http://www.w3.org/2000/10/XMLSchema";a:11:{s:2:"i4";s:0:"";s:3:"int";s:7:"integer";s:7:"boolean";s:7:"boolean";s:6:"string";s:6:"string";s:6:"double";s:6:"double";s:5:"float";s:6:"double";s:8:"dateTime";s:6:"string";s:11:"timeInstant";s:6:"string";s:12:"base64Binary";s:6:"string";s:6:"base64";s:6:"string";s:7:"ur-type";s:5:"array";}s:32:"http://www.w3.org/1999/XMLSchema";a:11:{s:2:"i4";s:0:"";s:3:"int";s:7:"integer";s:7:"boolean";s:7:"boolean";s:6:"string";s:6:"string";s:6:"double";s:6:"double";s:5:"float";s:6:"double";s:8:"dateTime";s:6:"string";s:11:"timeInstant";s:6:"string";s:12:"base64Binary";s:6:"string";s:6:"base64";s:6:"string";s:7:"ur-type";s:5:"array";}s:26:"http://soapinterop.org/xsd";a:1:{s:10:"SOAPStruct";s:6:"struct";}s:41:"http://schemas.xmlsoap.org/soap/encoding/";a:3:{s:6:"base64";s:6:"string";s:5:"array";s:5:"array";s:5:"Array";s:5:"array";}s:30:"http://xml.apache.org/xml-soap";a:1:{i:0;s:3:"Map";}}s:11:"xmlEntities";a:5:{s:4:"quot";s:1:""";s:3:"amp";s:1:"&";s:2:"lt";s:1:"<";s:2:"gt";s:1:">";s:4:"apos";s:1:"'";}}

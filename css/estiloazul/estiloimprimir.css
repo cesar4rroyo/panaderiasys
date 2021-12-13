@@ -1,0 +1,147 @@
+/*
+#contenedor{ 
+    text-align: left; 
+    width: 600px; 
+    margin: auto; 
+} 
+#cabecera{ 
+   visibility:hidden; 
+   display: none; 
+} 
+
+#logo{ 
+   visibility:visible; 
+   display: block; 
+   margin-left: 20px; 
+} 
+
+#cuerpo{ 
+    margin: 10 0 10 0px; 
+} 
+#lateral{ 
+   visibility:hidden; 
+   display: none; 
+} 
+
+#pie{ 
+    background-color: #cccccc; 
+    padding: 3 10 3 10px; 
+    text-align:right; 
+   clear: both; 
+} 
+
+#principal{ 
+    background-color: #ffffff; 
+    padding: 0 0 0 20px; 
+    width: 600px; 
+    float: left; 
+} 
+
+#principal table{ 
+   background-color: #ffffff; 
+    width: 600px; 
+   border: 2px solid #cccccc; 
+   font-size:10pt; 
+}
+*/
+#botones{
+    visibility:hidden; 
+    display: none;
+}
+#barramenusup{
+    visibility:hidden; 
+    display: none;
+}
+#opciones{
+    visibility:hidden; 
+    display: none;
+}
+#titulo{
+    visibility:hidden; 
+    display: none;
+}
+#menusup{
+    visibility:hidden; 
+    display: none;
+}
+#tbpaginaweb{
+    visibility:hidden; 
+    display: none;
+}
+#divimprimircuenta{
+   visibility:visible; 
+   display: block; 
+   margin-left: 0px;
+   margin-right: 0px; 
+}
+#divimprimircomanda{
+   visibility:visible; 
+   display: block; 
+   margin-left: 0px;
+   margin-right: 0px; 
+}
+#divimprimircocina{
+   visibility:visible; 
+   display: block; 
+   margin-left: 0px;
+   margin-right: 0px; 
+}
+#comanda{
+    font-size: 14.5px;
+}
+#mesa{
+    font-size: 14.5px;
+    text-transform: uppercase;
+    font-weight: normal;
+}
+#txtNumero{
+    font-size: 14.5px;
+}
+#divcomanda{
+    visibility:visible; 
+    font-size: 12.5px;
+    font-weight: normal;
+    display: inline;
+    overflow: auto;
+    text-align:right;
+}
+#fechayhora,#direccion,#ruc,#empresa{
+    text-align: left;
+    font-size:12.5px;
+}
+#Mesero{
+    text-align: left;
+    font-size:13.5px;
+}
+#tbimprimircuenta,#tbimprimircomanda{
+    font-size:12.5px;
+}
+th{
+    font-size:14.5px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    font-weight: normal;
+}
+td{
+    font-size:14.5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#enletras{
+    font-size:12.5px;
+    text-align:left;
+    text-transform: capitalize;
+}
+#aviso{
+    text-decoration: underline;
+    /*font-weight: bold;*/
+    font-size: 14.5px;
+    text-align: left;
+}
+#numerocomanda{
+    font-size: 14.5px;
+    text-align: left;
+}
+body{
+    size: auto;
+}
