@@ -21,13 +21,13 @@ switch($accion){
         $_SESSION['R_NombreSucursal'] = $dato->razonsocial;
         $_SESSION['R_RucSucursal'] = $dato->ruc;
 		echo "Guardado Correctamente";
-		break;
+		exit();
 	case "CAMBIARESTILO" :
 		if(ob_get_length()) ob_clean();
 		session_start();
 		$_SESSION['R_Estilo']='estilo'.strtolower($_POST['cboEstilo']);
 		echo "Guardado Correctamente";
-		break;
+		exit();
 	default:
 		echo "Error en el Servidor: Operacion no Implementada.";
 		exit();

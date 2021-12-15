@@ -308,7 +308,7 @@ if($action=="agregarProductoMozo"){
     			$preciocompra=$registro->preciocompra;
                 $idunidad=$registro->idunidad;
                 $moneda="S";
-                break;
+                exit();
     		}
     	}
     }else{
@@ -832,7 +832,7 @@ if($action=="verificarmesa"){
                 $disponible="true";
                 $idmesa=$registro->idmesa;
                 $nropersonas=$registro->nropersonas;
-                break;			    
+                exit();			    
             }else{
                $disponible="false";
                $idmesa="0";
@@ -851,7 +851,7 @@ if($action=="verificarmesa"){
                 $disponible="false";
                 $idmesa=$registro->idmesa;
                 $nropersonas=$registro->nropersonas;
-                break;
+                exit();
             }
         }
     }
@@ -862,7 +862,7 @@ if($action=="verificarmesa"){
                 $disponible="false";
                 $idmesa=$registro->idmesa;
                 $nropersonas=$registro->nropersonas;
-                break;
+                exit();
             }
         }
     }
