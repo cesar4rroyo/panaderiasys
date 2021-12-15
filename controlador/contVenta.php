@@ -26,15 +26,9 @@ switch($accion){
 		//CAJA
 		$iniciaproceso=date("Y-n-j H:i:s");
 		$apertura=$objCaja->consultarapertura();
-		/*$fechacierre=$objCaja->consultarmaxfecha();
-		$cierre=$objCaja->consultarcierre($fechacierre);
-		echo "alert('apertura".$apertura."');";
-		echo "alert('cierre".$cierre."');";
-		exit();*/
 		//si la apertura es != 0 o vacio es por que ya hay apertura
 		if($apertura==0){
     		$montosoles= $objCaja->montodeaperturasoles();
-    		//$montodolares= $objCaja->montodeaperturadolares();
     		$num_mov=$objCaja->existenciamov();
     		if($num_mov==0){
     			$objMovimientoAlmacen->iniciarTransaccion();
@@ -53,13 +47,6 @@ switch($accion){
     				if(ob_get_length()) ob_clean();
     				echo "Error de Proceso en Lotes11: ".$objGeneral->gMsg;
     				exit();
-    			/*}
-    			$rst = $objCaja->insertarMovimiento(1, 4, str_pad($numero+1,6,"0",STR_PAD_LEFT), 9, 'A', $_POST["txtFecha"], '', '', 0, 0, 'D', 0, $montodolares, 0, $montodolares, 0, $_SESSION['R_IdUsuario'], 'S', $_SESSION['R_IdSucursal'], 0, NULL, NULL, 'Apertura automatica desde el modulo de ventas','N');
-    			if(is_string($rst)){
-    				$objCaja->abortarTransaccion(); 
-    				if(ob_get_length()) ob_clean();
-    				echo "Error de Proceso en Lotes2: ".$objGeneral->gMsg;
-    				exit();*/
     			}else{
     				$objMovimientoAlmacen->finalizarTransaccion(); 
     				$objBitacora->finalizarTransaccion(); 
@@ -70,61 +57,7 @@ switch($accion){
     			$cierre=$objCaja->consultarcierre($fechacierre);
     			//SI NO HAY CIERRE
     			if($cierre==0){
-    				/*$objCaja->iniciarTransaccion();
-    				$objBitacora->iniciarTransaccion(); 
-    				$numero = $objCaja->generaNumeroSinSerie(4,10,substr($_SESSION["R_FechaProceso"],3,2));
-    				//CERRAMOS CAJA EN SOLES
-    				$rst = $objCaja->insertarMovimiento(2, 4, $numero, 10, 'A', $fechacierre, '', '', 0, 0, 'S', 0, $montosoles, 0, $montosoles, 0, $_SESSION['R_IdUsuario'], 'S', $_SESSION['R_IdSucursal'], 0, NULL, NULL, 'Cierre automatica desde el modulo de ventas','N');
-    				$dato=$rst->fetchObject();
-    				//INICIO BITACORA
-    				$objBitacora->insertarBitacora($_SESSION["R_NombreUsuario"], $_SESSION['R_Perfil'], 10, 'Nuevo Registro', 'idconceptopago=>2; idsucursal=>'.$_SESSION['R_IdSucursal'].'; idtipomovimiento=>4; numero=>'.$numero.'; idtipodocumento=>10; formapago=>A; fecha=>'.$fechacierre.'; fechaproximacancelacion=>; fechaultimopago=>; nropersonas=>0; idmesa=>0; moneda=>S; inicial=>0; subtotal=>'.$montosoles.'; igv=>0; total=>'.$montosoles.'; totalpagado=>0; idusuario=>'.$_SESSION['R_IdUsuario'].'; tipopersona=>S; idpersona=>'.$_SESSION['R_IdSucursal'].'; idresponsable=>0; idmovimientoref=>; idsucursalref=>; comentario=>Cierre automatica desde el modulo de ventas; situacion=>N; estado=>N; idcaja=>0; idsucursalusuario=>'.$_SESSION['R_IdSucursalUsuario'].'; idsucursalpersona=>0; idsucursalresponsable=>0', $_SESSION['R_IdSucursal'], $dato->idmovimiento ,$_SESSION['R_IdUsuario'],$_SESSION['R_IdSucursalUsuario']);
-    				//FIN BITACORA
-    				if(is_string($rst)){
-    					$objCaja->abortarTransaccion(); 
-    					$objBitacora->abortarTransaccion(); 
-    					if(ob_get_length()) ob_clean();
-    					echo "Error de Proceso en Lotes1: ".$objGeneral->gMsg;
-    					exit();
-    				}
-    				/*$numero = $objCaja->generaNumeroSinSerie(4,9,substr($_SESSION["R_FechaProceso"],3,2));
-    				//APERTURAMOS CAJA EN SOLES
-    				$rst = $objCaja->insertarMovimiento(1, 4, $numero, 9, 'A', $_POST["txtFecha"], '', '', 0, 0, 'S', 0, $montosoles, 0, $montosoles, 0, $_SESSION['R_IdUsuario'], 'S', $_SESSION['R_IdSucursal'], 0, NULL, NULL, 'Apertura automatica desde el modulo de ventas','N');
-    				$dato=$rst->fetchObject();
-    				//INICIO BITACORA
-    				$objBitacora->insertarBitacora($_SESSION["R_NombreUsuario"], $_SESSION['R_Perfil'], 10, 'Nuevo Registro', 'idconceptopago=>1; idsucursal=>'.$_SESSION['R_IdSucursal'].'; idtipomovimiento=>4; numero=>'.$numero.'; idtipodocumento=>9; formapago=>A; fecha=>'.$_POST["txtFecha"].'; fechaproximacancelacion=>; fechaultimopago=>; nropersonas=>0; idmesa=>0; moneda=>S; inicial=>0; subtotal=>'.$montosoles.'; igv=>0; total=>'.$montosoles.'; totalpagado=>0; idusuario=>'.$_SESSION['R_IdUsuario'].'; tipopersona=>S; idpersona=>'.$_SESSION['R_IdSucursal'].'; idresponsable=>0; idmovimientoref=>; idsucursalref=>; comentario=>Apertura automatica desde el modulo de ventas; situacion=>N; estado=>N; idcaja=>0; idsucursalusuario=>'.$_SESSION['R_IdSucursalUsuario'].'; idsucursalpersona=>0; idsucursalresponsable=>0', $_SESSION['R_IdSucursal'], $dato->idmovimiento ,$_SESSION['R_IdUsuario'],$_SESSION['R_IdSucursalUsuario']);
-    				//FIN BITACORA
-    				if(is_string($rst)){
-    					$objCaja->abortarTransaccion(); 
-    					$objBitacora->abortarTransaccion(); 
-    					if(ob_get_length()) ob_clean();
-    					echo "Error de Proceso en Lotes2: ".$objGeneral->gMsg;
-    					exit();
-    				/*}
-    			}else{
-    				//SI HAY CIERRE
-    				$objMovimientoAlmacen->iniciarTransaccion();
-    				$objBitacora->iniciarTransaccion();
-    				$numero = $objCaja->generaNumeroSinSerie(4,9,substr($_SESSION["R_FechaProceso"],3,2));
-    				$rst = $objMovimientoAlmacen->insertarMovimiento(1, 4, $numero, 9, 'A', $_POST["txtFecha"].' '.date("H:i:s"), '', '', 0, 0, 'S', 0, $montosoles, 0, $montosoles, 0, $_SESSION['R_IdUsuario'], 'S', $_SESSION['R_IdSucursal'], 0, NULL, NULL, 'Apertura automatica desde el modulo de ventas '.date("Y-n-j H:i:s"),'N');
-    				$dato=$rst->fetchObject();
-    				//INICIO BITACORA
-    				$objBitacora->insertarBitacora($_SESSION["R_NombreUsuario"], $_SESSION['R_Perfil'], 10, 'Nuevo Registro', 'idconceptopago=>1; idsucursal=>'.$_SESSION['R_IdSucursal'].'; idtipomovimiento=>4; numero=>'.$numero.'; idtipodocumento=>9; formapago=>A; fecha=>'.$_POST["txtFecha"].'; fechaproximacancelacion=>; fechaultimopago=>; nropersonas=>0; idmesa=>0; moneda=>S; inicial=>0; subtotal=>'.$montosoles.'; igv=>0; total=>'.$montosoles.'; totalpagado=>0; idusuario=>'.$_SESSION['R_IdUsuario'].'; tipopersona=>S; idpersona=>'.$_SESSION['R_IdSucursal'].'; idresponsable=>0; idmovimientoref=>; idsucursalref=>; comentario=>Apertura automatica desde el modulo de ventas; situacion=>N; estado=>N; idcaja=>0; idsucursalusuario=>'.$_SESSION['R_IdSucursalUsuario'].'; idsucursalpersona=>0; idsucursalresponsable=>0', $_SESSION['R_IdSucursal'], $dato->idmovimiento ,$_SESSION['R_IdUsuario'],$_SESSION['R_IdSucursalUsuario']);
-    				//FIN BITACORA
-    
-    				if(is_string($rst)){
-    					$objMovimientoAlmacen->abortarTransaccion();
-    					$objBitacora->abortarTransaccion(); 
-    					if(ob_get_length()) ob_clean();
-    					echo "Error de Proceso en Lotes12: ".$objGeneral->gMsg;
-    					exit();
-            /*				}
-    				$rst = $objCaja->insertarMovimiento(1, 4, str_pad($numero+1,6,"0",STR_PAD_LEFT), 9, 'A', $_POST["txtFecha"], '', '', 0, 0, 'D', 0, $montodolares, 0, $montodolares, 0, $_SESSION['R_IdUsuario'], 'S', $_SESSION['R_IdSucursal'], 0, NULL, NULL, 'Apertura automatica desde el modulo de ventas','N');
-    				if(is_string($rst)){
-    					$objCaja->abortarTransaccion(); 
-    					$objBitacora->abortarTransaccion(); 
-    					if(ob_get_length()) ob_clean();
-    					echo "Error de Proceso en Lotes2: ".$objGeneral->gMsg;
-    					exit();*/
+    				
 				}else{
 					$objMovimientoAlmacen->finalizarTransaccion(); 
 					$objBitacora->finalizarTransaccion(); 

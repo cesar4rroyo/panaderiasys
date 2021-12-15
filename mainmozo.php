@@ -246,7 +246,7 @@ function enviar(numero,vdisponible,idmesa){
         //$("#frame").addClass("row");
     }     
 }
-verificarmesa('MESA 01','2');
+// verificarmesa('MESA 01','2');
 </script>
 </head>
 <body>
@@ -440,7 +440,7 @@ verificarmesa('MESA 01','2');
             g_ajaxGrabar.request();
             loading(true, "loading", "frame", "line.gif",true);
     }
-    //aceptarCambioSucursal(1);
+    aceptarCambioSucursal(1);
     </script>
 </body>
 </html>

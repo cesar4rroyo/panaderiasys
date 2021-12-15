@@ -42,13 +42,13 @@ function verificarmesa(numero,idsalon){
             document.getElementById("Disponible").value = vdisponible;
             document.getElementById("Idmesa").value = vidmesa;
             document.getElementById("Nropersonas").value = vnropersonas;
-            enviar(numero);
+            enviar(numero, idsalon);
 		};
 		g_ajaxPagina.request();
 }
-function enviar(numero){
+function enviar(numero, idsalon){
     if(document.getElementById("Disponible").value=="true"){
-        setRun("vista/frmComanda","&idmesa="+document.getElementById("Idmesa").value+"&mesa="+numero+"&salon="+document.getElementById("Salon").value+"&accion=NUEVO","frame","frame","imgloading");
+        setRun("vista/frmComanda","&idmesa="+document.getElementById("Idmesa").value+"&mesa="+numero+"&salon="+document.getElementById("Salon").value+"&idsalon="+idsalon+"&accion=NUEVO","frame","frame","imgloading");
         //$("#frame").addClass("row");
     }else{
         g_ajaxPagina = new AW.HTTP.Request;
@@ -59,7 +59,7 @@ function enviar(numero){
 		g_ajaxPagina.response = function(text){
             var text = JSON.parse(text);
             if(text.modificar==true){
-                setRun("vista/frmComanda","&idmesa="+document.getElementById("Idmesa").value+"&mesa="+numero+"&salon="+document.getElementById("Salon").value+"&accion=ACTUALIZAR","frame","frame","imgloading");
+                setRun("vista/frmComanda","&idmesa="+document.getElementById("Idmesa").value+"&mesa="+numero+"&salon="+document.getElementById("Salon").value+"&idsalon="+idsalon+"&accion=ACTUALIZAR","frame","frame","imgloading");
             }else{
                 alert("ESTA MESA YA ESTA SIENDO ATENDIDA");
             }

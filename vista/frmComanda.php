@@ -295,6 +295,27 @@ function aceptar(){
 }
 
 function aceptarCajero(){
+    
+    if($('#chbxOTROS').is(":checked")){
+        let efectivo = $('#txtMontoEfectivoVarios').val();
+        let yape = $('#txtMontoYapeVarios').val();
+        let plin = $('#txtMontoPlinVarios').val();
+        let visa = $('#txtMontoVisaVarios').val();
+        efectivo = efectivo == '' || isNaN(efectivo) ? 0 : efectivo;
+        yape = yape == '' || isNaN(yape) ? 0 : yape;
+        plin = plin == '' || isNaN(plin) ? 0 : plin;
+        visa = visa == '' || isNaN(visa) ? 0 : visa;
+        let total = visa + plin + yape + efectivo;
+        
+        if(isNaN(efectivo) || isNaN(yape) || isNaN(plin) || isNaN(visa)){
+            alert("Debe ingresar un valor numerico");
+            return false;
+        }
+        if(parseFloat(efectivo) + parseFloat(yape) + parseFloat(plin) + parseFloat(visa) != $('#txtTotal').val()){
+            alert("Los suma de montos son diferentes al total");
+            return false;
+        }
+    }
     var tot2 = parseFloat(document.getElementById('txtTotal').value);
     $("#modalDetalle").closeModal();
     if(document.getElementById('divDetallePedido').innerHTML!='' && document.getElementById('divDetallePedido').innerHTML!='&nbsp;&nbsp;&nbsp;Debe Agregar platos!!!'){
@@ -557,6 +578,41 @@ var selectTipoTarjeta = "<?php echo genera_cboGeneralSQL("select * from tipotarj
 
 listadoPersona2();
 asignar();
+
+function verificarmesa(numero,idsalon){
+    if(confirm("Desea mover el pedido a la mesa "+numero + " ?")){
+        g_ajaxPagina = new AW.HTTP.Request;
+		g_ajaxPagina.setURL("vista/ajaxPedido.php");
+		g_ajaxPagina.setRequestMethod("POST");
+		g_ajaxPagina.setParameter("accion", "verificarmesa");
+		g_ajaxPagina.setParameter("txtMesa",numero);
+        g_ajaxPagina.setParameter("idsalon",idsalon);
+		g_ajaxPagina.response = function(text){
+		    eval(text);
+            aceptarCambioMesa(vidmesa);                      
+		};
+		g_ajaxPagina.request();
+    }
+}
+
+function aceptarCambioMesa(idmesa){
+    var g_ajaxGrabar = new AW.HTTP.Request;  
+    g_ajaxGrabar.setURL("controlador/contPedidoMozo.php");
+    g_ajaxGrabar.setRequestMethod("POST");
+    g_ajaxGrabar.setParameter("accion", "CAMBIARMESA");
+    g_ajaxGrabar.setParameter("idmesa", idmesa);
+    g_ajaxGrabar.setParameter("txtId", document.getElementById("txtId").value);
+
+    g_ajaxGrabar.response = function(text){
+        loading(false, "loading");
+        document.getElementById("DivSucursal").style.display='none';
+        document.getElementById("blokeador").style.display='none';
+        alert(text);
+        atras();
+    };
+    g_ajaxGrabar.request();
+    loading(true, "loading", "frame", "line.gif",true);
+}
 
 <? if($_GET["accion"]=="ACTUALIZAR"){
         if($_SESSION["R_IdPerfil"]==5){
@@ -1341,7 +1397,7 @@ $('.select2').select2({
                     <button type="button" id="btnBoleta" class="btn-floating btnDoc" style="margin-right: 5px;" onclick="$('#cboIdTipoDocumento').val('4');generaNumeroVenta($('#cboIdTipoDocumento').val());$('.btnDoc').removeClass('red');$('#btnBoleta').addClass('red');" >Bol.</button>
                     <button type="button" id="btnFactura" class="btn-floating btnDoc" style="margin-right: 5px;" onclick="$('#cboIdTipoDocumento').val('5');generaNumeroVenta($('#cboIdTipoDocumento').val());$('.btnDoc').removeClass('red');$('#btnFactura').addClass('red');">Fact.</button>
                     <button type="button" id="btnTicket" class="btn-floating red btnDoc" style="margin-right: 5px;" onclick="$('#cboIdTipoDocumento').val('19');generaNumeroVenta($('#cboIdTipoDocumento').val());$('.btnDoc').removeClass('red');$('#btnTicket').addClass('red');">Tick.</button>
-                    <label class="labelSuperior active">Tipo de Documento</label>
+                    <label class="labelSuperior active">T. Documento</label>
                 </div>
             </div>
             <div class="col s12 m6 l3" hidden="">
@@ -1374,17 +1430,23 @@ $('.select2').select2({
                     </div>
                 </div>
             </div>
+            <div class="col s12">
+                <div class="input-field inline">
+                    <input type="text" id="txtNombreImprimir" name="txtNombreImprimir" value="<?php if($_GET["accion"]=="ACTUALIZARPAGO"){ echo htmlentities(umill(substr($dato["fecha"],0,10)), ENT_QUOTES, "UTF-8"); }else{ echo " ";}?>">
+                    <label for="txtNombreImprimir">Nombre Cliente</label>
+                </div>
+            </div>
             <div class="col s12 m6 l3" id="divModoPago">
                 <label style="margin-left: 15px;" class="col s12 left-align labelSuperior">Modo de Pago</label>
                 <div id="rbtnModoPago">
                     <div class="row">
                         <div class="col s6">
                             <p class=" input-field inline" style="margin-top: 0px;">
-                                <input type="radio" value="E" name="rdbtnModoPago" id="chbxEFECTIVO" checked="" onchange="if(this.checked){$('#divEfectivo').show();$('#divTarjeta').hide();$('#divAmbos').hide();$('#divCheque').hide();$('#divDeposito').hide();$('#txtDinero').focus();$('#txtDinero').val($('#txtTotal').val());$('#txtVuelto').val('0');$('#divSelectTarjeta').html('');$('#divSelectAmbos').html('');}">
+                                <input type="radio" value="E" name="rdbtnModoPago" id="chbxEFECTIVO" checked="" onchange="if(this.checked){$('#divEfectivo').show();$('#divEfectivo2').show();$('#divTarjeta').hide();$('#divAmbos').hide();$('#divCheque').hide();$('#divDeposito').hide();$('#txtDinero').focus();$('#txtDinero').val($('#txtTotal').val());$('#txtVuelto').val('0');$('#divSelectTarjeta').html('');$('#divSelectAmbos').html('');$('#divTransferencia').hide();$('#divOtros').hide();}">
                                 <label for="chbxEFECTIVO">EFECTIVO</label>
                             </p>
                             <p class="input-field inline" style="margin-top: 0px;">
-                                <input type="radio" value="T" name="rdbtnModoPago" id="chbxTARJERA" onchange="if(this.checked){$('#divEfectivo').hide();$('#divTarjeta').show();$('#divAmbos').hide();$('#divCheque').hide();$('#divDeposito').hide();$('#cboTipoTarjeta').val('1');$('#divSelectTarjeta').html(selectTipoTarjeta);$('#divSelectAmbos').html('');$('select').material_select();}">
+                                <input type="radio" value="T" name="rdbtnModoPago" id="chbxTARJERA" onchange="if(this.checked){$('#divEfectivo').hide();$('#divTarjeta').show();$('#divAmbos').hide();$('#divCheque').hide();$('#divDeposito').hide();$('#cboTipoTarjeta').val('1');$('#divSelectTarjeta').html(selectTipoTarjeta);$('#divSelectAmbos').html('');$('select').material_select();$('#divTransferencia').hide();$('#divOtros').hide();$('#divEfectivo2').hide();}">
                                 <label for="chbxTARJERA">TARJETA</label>
                             </p>
                         </div>
@@ -1392,8 +1454,20 @@ $('.select2').select2({
                     <div class="row">
                         <div class="col s12">
                             <p class=" input-field inline" style="margin-top: 0px;">
-                                <input type="radio" value="A" name="rdbtnModoPago" id="chbxAMBOS" onchange="if(this.checked){$('#divEfectivo').show();$('#divTarjeta').hide();$('#divAmbos').show();$('#divCheque').hide();$('#divDeposito').hide();$('#txtPagoEfectivo').val('0');$('#txtVuelto').val('0');$('#divSelectTarjeta').html('');$('#divSelectAmbos').html(selectTipoTarjeta);$('select').material_select();}">
+                                <input type="radio" value="A" name="rdbtnModoPago" id="chbxAMBOS" onchange="if(this.checked){$('#divEfectivo').show();$('#divTarjeta').hide();$('#divAmbos').show();$('#divCheque').hide();$('#divDeposito').hide();$('#txtPagoEfectivo').val('0');$('#txtVuelto').val('0');$('#divSelectTarjeta').html('');$('#divSelectAmbos').html(selectTipoTarjeta);$('select').material_select();$('#divTransferencia').hide();$('#divOtros').hide();}">
                                 <label for="chbxAMBOS">EFECTIVO Y TARJETA</label>
+                            </p>
+                        </div>
+                        <div class="col s12">
+                            <p class=" input-field inline" style="margin-top: 0px;">
+                                <input type="radio" value="TRANS" name="rdbtnModoPago" id="chbxTRANS" onchange="if(this.checked){$('#divEfectivo').hide();$('#divTarjeta').hide();$('#divAmbos').hide();$('#divCheque').hide();$('#divDeposito').hide();$('#divTransferencia').show(); $('#divEfectivo2').hide();$('#divOtros').hide();}">
+                                <label for="chbxTRANS">PLIN O YAPE</label>
+                            </p>
+                        </div>
+                        <div class="col s12">
+                            <p class=" input-field inline" style="margin-top: 0px;">
+                                <input type="radio" value="OTROS" name="rdbtnModoPago" id="chbxOTROS" onchange="if(this.checked){$('#divEfectivo').hide();$('#divTarjeta').hide();$('#divAmbos').hide();$('#divCheque').hide();$('#divDeposito').hide();$('#divTransferencia').hide();$('#divOtros').show();$('#divEfectivo2').hide();}">
+                                <label for="chbxOTROS">OTROS</label>
                             </p>
                         </div>
                     </div>
@@ -1407,6 +1481,41 @@ $('.select2').select2({
                     <button type="button" class="btn col s2 m2 l2 " style="margin-right: 5px;" onclick="BotonesDinero(50);$('#txtDinero').trigger('keyup');calcularVuelto();">50</button>
                     <button type="button" class="btn col s2 m2 l2 " style="margin-right: 5px;" onclick="BotonesDinero(100);$('#txtDinero').trigger('keyup');calcularVuelto();">100</button>
                     <button type="button" class="btn col s2 m2 l2 offset-m1 offset-l1  green tooltipped" data-position="bottom" data-delay="30" data-tooltip="MONTO ANTERIOR"  style="margin-right: 3px;" onclick="MontoAnterior();$('#txtDinero').trigger('keyup');"><i class="material-icons">history</i></button>
+                </div>
+            </div>
+            <div hidden id="divOtros" class="row">
+                <div class="col s3 m4">  
+                    <div class="input-field inline">
+                        <input id="txtMontoEfectivoVarios" value="0" name="txtMontoEfectivoVarios" class="inptCantidad" type="text" onKeyPress="return validarsolonumerosdecimales(event,this.value);" onfocus="modalNumero('txtMontoEfectivoVarios');" readonly="">
+                        <label for="txtMontoEfectivoVarios" class="active">Efectivo</label>
+                    </div>
+                </div>
+                <div class="col s3 m4">
+                    <div class="input-field inline">
+                        <input id="txtMontoVisaVarios" value="0" name="txtMontoVisaVarios" class="inptCantidad" type="text" onKeyPress="return validarsolonumerosdecimales(event,this.value);" onclick="if($(this).val()<=0){$(this).val('0')}" onfocus="modalNumero('txtMontoVisaVarios');" readonly="">
+                        <label for="txtMontoVisaVarios" class="active"> VISA</label>
+                    </div>
+                </div>
+                <div class="col s3 m4">
+                    <div class="input-field inline">
+                        <input id="txtMontoYapeVarios" value="0" name="txtMontoYapeVarios" class="inptCantidad" type="text" onKeyPress="return validarsolonumerosdecimales(event,this.value);" onclick="if($(this).val()<=0){$(this).val('0')}" onfocus="modalNumero('txtMontoYapeVarios');" readonly="">
+                        <label for="txtMontoYapeVarios" class="active">YAPE</label>
+                    </div>
+                </div>
+                <div class="col s3 m4">
+                    <div class="input-field inline">
+                        <input id="txtMontoPlinVarios" value="0" name="txtMontoPlinVarios" class="inptCantidad" type="text" onKeyPress="return validarsolonumerosdecimales(event,this.value);" onclick="if($(this).val()<=0){$(this).val('0')}" onfocus="modalNumero('txtMontoPlinVarios');" readonly="">
+                        <label for="txtMontoPlinVarios" class="active">PLIN</label>
+                    </div>
+                </div>
+            </div>
+            <div id="divTransferencia" hidden class="col s12 m4 l4">
+                <div class="input-field inline">
+                    <select id="txtMonedaCheque" name="moneda_cheque">
+                        <option value="Y">YAPE</option>
+                        <option value="P">PLIN</option>
+                    </select>
+                    <label class="labelSuperior">Tipo</label>
                 </div>
             </div>
             <div id="divEfectivo2"  class="col s12 m9 l9">
@@ -1471,7 +1580,7 @@ $('.select2').select2({
                 </div>
             </div>
             <div class="row">
-                <div class="col s12 m6 l3">
+                <div class="col s12 m12">
                     <div class="input-field inline">
                         <select id="tipoVenta" name="tipoVenta" onchange="fnCambiarModalidad();">
                             <option value="N" selected="">VENTA COMÚN</option>
@@ -1555,8 +1664,31 @@ $('.select2').select2({
                     <button id="btnCOCINA" class="btn amber darken-4 right" type="button" onClick="/*modalDetalle();*/aceptarCajero();" >IMPRIMIR<i class="material-icons right">save</i></button>
                 </div>
             </div>
-            <input type="hidden" name="InptCliente" value="">
-            <input type="hidden" name="txaComentario" value="">
+            <!-- <input type="hidden" name="InptCliente" value="">
+            <input type="hidden" name="txaComentario" value=""> -->
+            <?php if($_GET["idsalon"]=="4"){
+                        ?>
+                            <div class="col s11">
+                                <div class="input-field inline">
+                                    <input type="hidden" name="txtIdSucursalPersona" id="txtIdSucursalPersona">
+                                    <input type="hidden" name="txtIdPersona" id="txtIdPersona">
+                                    <input id="InptCliente" autocomplete="off" type="text" value="<?php echo $dato->nombrespersona;?>">
+                                    <label for="InptCliente" class="black-text<?php if(strlen($dato->nombrespersona)>0){ echo ' active';}?>">CLIENTE<i class="material-icons left">face</i></label>
+                                </div>
+                            </div>
+                            <div class="col s1">
+                                <button type="button" onclick="modalNuevoPersona()" class="btn-floating light-green accent-1 tooltipped" data-position="left" data-delay="30" data-tooltip="AGREGAR CLIENTE"><i class="material-icons black-text">add</i></button>
+                            </div>
+                            <div class="col s12">
+                                <div class="input-field inline">
+                                    <textarea id="txaComentario" class="materialize-textarea" style="height: 90px;"><?php echo $dato->comentario;?></textarea>
+                                    <label for="txaComentario" class="black-text active">COMENTARIO<i class="material-icons left">font_download</i></label>
+                                </div>
+                            </div>
+                        <?php }else{ ?>
+                            <input type="hidden" id="InptCliente" value="<?php echo $dato->nombrespersona;?>">
+                            <input type="hidden" id="txaComentario" value="<?php echo $dato->comentario;?>">
+                        <?php }?>
             
             <div class="row tabla" id="divDetallePedido">
                 <table class="bordered highlight" style="display: none;">

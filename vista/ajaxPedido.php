@@ -1042,6 +1042,10 @@ if($action=="imprimir_cuenta"){
     /* Most printers are open on port 9100, so you just need to know the IP 
      * address of your receipt printer, and then fsockopen() it on that port.
      */
+	//CONSULTAR MOVIMIENTO
+	$txtNombrePersona = $objMovimientoAlmacen->obtenerDataSQL("SELECT * FROM movimientohoy where idmovimiento=".$_POST["idmovimiento"])
+					->fetchObject()->nombrespersona;
+
     try {
         $rs=$objImpresora->consultarImpresora(100000,1,'idimpresora','1',0,$_SESSION["R_IdSucursal"],'','');
 	    $c=0;
@@ -1076,6 +1080,7 @@ if($action=="imprimir_cuenta"){
 				        $printer -> text("EL CLUB");
 				        $printer -> feed();
 					    $printer -> text("ENTREGADO - CAJA".($_SESSION["R_IdCaja"]-1)."\n");
+					    $printer -> text("CLIENTE: ".$txtNombrePersona."\n");
 					    $printer -> setTextSize(1 , 1);
 				        $printer -> feed();
 				        $printer -> text("Nro: ".($_POST["numerocomanda"])."  Mozo: ".($_POST["mesero"])."\n");

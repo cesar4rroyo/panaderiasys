@@ -429,6 +429,8 @@ switch($accion){
         }
 		exit();
     case "NUEVO2" :
+		// print_r($_POST);
+		// return 1;
 		if($_POST["cuenta"]!=1) {echo "Espera";exit();}
 		$apertura=$objCaja->consultarapertura($_SESSION["R_IdCaja"]);
 		if($apertura==0){ echo "Apertura"; exit();}
@@ -455,6 +457,8 @@ switch($accion){
 		$res = $objMovimientoAlmacen->insertarMovimiento(0, 5, $_POST["txtNumeroComanda"], 11, '', 'LOCALTIMESTAMP', '', '', $_POST["Nropersonas"], $_POST["Idmesa"], 'S', 0, $_POST["txtTotal"], 0, $_POST["txtTotal"], 0, $_POST['idusuario'], 'P', 0, $_POST['idpersona'], $idmovimientoref, $idsucursalref, $_POST["comentario"] ,'O',0,$_SESSION['R_IdSucursalUsuario'],0,$_SESSION['R_IdSucursalUsuario'],$_POST["cliente"]);
 		$dato=$res->fetchObject();
 	    $idpedido = $dato->idmovimiento;
+		//ACTUALIZAR CON NOMBRE DE IMPRESION
+		$objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy set nombrespersona='".$_POST["txtNombreImprimir"]."' where idmovimiento=".$idpedido);
 		//INICIO BITACORA
 		date_default_timezone_set('America/Lima');
 		$objBitacora->insertarBitacora($_SESSION["R_NombreUsuario"], $_SESSION['R_Perfil'], 10, 'Nuevo Registro', 'idconceptopago=>0; idsucursal=>'.$_SESSION['R_IdSucursal'].'; idtipomovimiento=>5; numero=>'.$_POST["txtNumeroComanda"].'; idtipodocumento=>11; formapago=>; fecha=>'.date("d/m/Y").'; fechaproximacancelacion=>; fechaultimopago=>; nropersonas=>'.$_POST["Nropersonas"].'; idmesa=>'.$_POST["Idmesa"].'; moneda=>S; inicial=>0; subtotal=>'.$_POST["txtTotal"].'; igv=>0; total=>'.$_POST["txtTotal"].'; totalpagado=>0; idusuario=>'.$_SESSION['R_IdUsuario'].'; tipopersona=>P; idpersona=>0; idresponsable=>'.$_SESSION['R_IdPersona'].'; idmovimientoref=>; idsucursalref=>; comentario=>'."-".'; situacion=>O; estado=>N; idcaja=>0; idsucursalusuario=>'.$_SESSION['R_IdSucursalUsuario'].'; idsucursalpersona=>0; idsucursalresponsable=>'.$_SESSION['R_IdSucursalUsuario'].'; nombrespersona=>'." ", $_SESSION['R_IdSucursal'], $dato->idmovimiento ,$_SESSION['R_IdUsuario'],$_SESSION['R_IdSucursalUsuario']);
@@ -598,7 +602,23 @@ switch($accion){
                 $numerotarjeta="";
                 $totalpagado=$_POST["txtTotal"] - $_POST["txtMontoVisa"] - $_POST["txtMontoMastercard"];
                 //$totalpagado=$_POST["txtPagoEfectivo"];
-            }
+            }elseif($_POST["rdbtnModoPago"]=="OTROS"){
+                $idbanco="";
+                $idtipotarjeta=1;
+                $numerotarjeta="";
+                $totalpagado=$_POST["txtMontoEfectivoVarios"];
+				$importe_deposito = $_POST["txtMontoYapeVarios"] + $_POST["txtMontoPlinVarios"];
+				$_POST["txtMontoVisa"] = $_POST["txtMontoVisaVarios"];
+            }elseif($_POST["rdbtnModoPago"]=="TRANS"){
+				$idbanco="";
+                $idtipotarjeta="";
+                $numerotarjeta="";
+				$numero_deposito="";
+                $totalpagado=0;
+				$fecha_deposito='';
+				$importe_deposito = $_POST["txtTotal"];
+				$banco_deposito = $_POST["moneda_cheque"];
+			}
             $numerotarjeta=$_POST["glosa_movimiento1"];//MASTER
     		//Inserto Documento Venta; editado con el tipo de pago
             if($_POST["cboIdTipoDocumento"]==4){
@@ -625,6 +645,8 @@ switch($accion){
     		}
     		$dato=$rst->fetchObject();
             $objMovimientoAlmacen->ejecutarSQL("update movimientohoy set manual='N' where idmovimiento=".$dato->idmovimiento." and idsucursal=".$_SESSION["R_IdSucursal"]);
+			// //ACTUALIZAR CON NOMBRE DE IMPRESION
+			// $objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy set nombrespersona='".$_POST["txtNombreImprimir"]."' where idmovimiento=".$dato->idmovimiento);
             
             $objMovimientoAlmacen->ejecutarSQL("insert into detallestock(idventa,idpedido,idsucursal,situacion,estado) values(".$dato->idmovimiento.",".$idpedido.",".$_SESSION["R_IdSucursal"].",'P','N')");
 
@@ -666,11 +688,13 @@ switch($accion){
             if($_POST["rdbtnModoPago"]=="C"){
                 $objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy SET modopago='".$_POST["rdbtnModoPago"]."',tipoventa='".$tipoVenta."',glosa='".$glosa."'"
                         . ", nombrebanco='".$banco_cheque."', numerocheque='".$numero_cheque."', monedacheque='".$moneda_cheque."' WHERE idmovimiento=".$datoc->idmovimiento);
-            }elseif($_POST["rdbtnModoPago"]=="D"){
+            }elseif($_POST["rdbtnModoPago"]=="TRANS"){
                 $objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy SET modopago='".$_POST["rdbtnModoPago"]."',tipoventa='".$tipoVenta."',glosa='".$glosa."'"
-                        . ", nombrebanco='".$banco_deposito."', numerooperacion='".$numero_deposito."', importedeposito=".$importe_deposito.",fechadeposito='".$fecha_deposito."' WHERE idmovimiento=".$datoc->idmovimiento);
+                        . ", nombrebanco='".$banco_deposito."', numerooperacion='".$numero_deposito."', importedeposito=".$importe_deposito." WHERE idmovimiento=".$datoc->idmovimiento);
             }elseif($_POST["rdbtnModoPago"]=="A"){
                 $objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy SET montotarjeta='1@".$_POST["txtMontoVisa"]."|2@".$_POST["txtMontoMastercard"]."',modopago='".$_POST["rdbtnModoPago"]."',tipoventa='".$tipoVenta."',glosa='".$glosa."' WHERE idmovimiento=".$datoc->idmovimiento);
+            }elseif($_POST["rdbtnModoPago"]=="OTROS"){
+                $objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy SET montotarjeta='1@".$_POST["txtMontoVisa"]."',modopago='".$_POST["rdbtnModoPago"]."',tipoventa='".$tipoVenta."',glosa='".$glosa."', importedeposito=".$importe_deposito." WHERE idmovimiento=".$datoc->idmovimiento);
             }else{
                 $objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy SET modopago='".$_POST["rdbtnModoPago"]."',tipoventa='".$tipoVenta."',glosa='".$glosa."' WHERE idmovimiento=".$datoc->idmovimiento);
             }
