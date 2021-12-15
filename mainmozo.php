@@ -33,6 +33,7 @@ function setRun(url, par, div, msj, img){
   var fechainicio=new Date();
   var recipiente = document.getElementById(div);
   var g_ajaxPagina = new AW.HTTP.Request;  
+  console.log(url);
   g_ajaxPagina.setURL(url + ".php?ajax=true&"+par);
   g_ajaxPagina.setRequestMethod("POST");
   g_ajaxPagina.response = function(xform){
