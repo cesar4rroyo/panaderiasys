@@ -391,7 +391,7 @@ function aceptarCajero(){
 
 function imprimir2(idventa){
     var g_ajaxPagina4 = new AW.HTTP.Request;
-    g_ajaxPagina4.setURL("http://localhost/lasmusas/vista/ajaxPedido.php");
+    g_ajaxPagina4.setURL("http://localhost/lasmusas78872387/vista/ajaxPedido.php");
     g_ajaxPagina4.setRequestMethod("POST");
     g_ajaxPagina4.setParameter("accion", "imprimir_ventaelectronica");
     g_ajaxPagina4.setParameter("idventa",idventa);
@@ -401,7 +401,7 @@ function imprimir2(idventa){
     g_ajaxPagina4.request();
     /*$.ajax({
         //headers: {"X-My-Custom-Header": "OK"},
-        url: "http://localhost/lasmusas/vista/ajaxPedido.php",
+        url: "http://localhost/lasmusas78872387/vista/ajaxPedido.php",
         type: 'GET',
         data: "accion=imprimir_ventaelectronica&idventa="+idventa,
         crossDomain: true,
@@ -419,7 +419,7 @@ function imprimir2(idventa){
     g_ajaxPagina4.setURL("vista/ajaxPedido.php");
     g_ajaxPagina4.setRequestMethod("POST");
     g_ajaxPagina4.setParameter("accion", "EnviarURL");
-    g_ajaxPagina4.setParameter("url", "http://localhost/lasmusas/vista/ajaxPedido.php?accion=imprimir_ventaelectronica&idventa="+idventa);
+    g_ajaxPagina4.setParameter("url", "http://localhost/lasmusas78872387/vista/ajaxPedido.php?accion=imprimir_ventaelectronica&idventa="+idventa);
     g_ajaxPagina4.response = function(text){
         console.log(text);
     }
@@ -464,7 +464,7 @@ function imprimirTicket(idmov,comanda,idtipodocumento,mesero){
 
 function imprimircuenta2(vidpedido,mesa,numero,mesero){
     var g_ajaxPagina3 = new AW.HTTP.Request;
-    g_ajaxPagina3.setURL("http://localhost/lasmusas/vista/ajaxPedido.php");
+    g_ajaxPagina3.setURL("http://localhost/lasmusas78872387/vista/ajaxPedido.php");
     g_ajaxPagina3.setRequestMethod("POST");
     g_ajaxPagina3.setParameter("accion", "imprimir_cuenta");
     g_ajaxPagina3.setParameter("idmovimiento",vidpedido);

@@ -177,7 +177,7 @@ ventana.document.close();*/
     }else{
         g_ajaxPagina.setParameter("glosa","");
     }
-    g_ajaxPagina.setURL("http://localhost/lasmusas/vista/ajaxPedido.php");
+    g_ajaxPagina.setURL("http://localhost/lasmusas348378/vista/ajaxPedido.php");
 	g_ajaxPagina.setRequestMethod("POST");
 	g_ajaxPagina.setParameter("accion", "imprimir_ventaelectronica");
 	g_ajaxPagina.setParameter("idventa",idventa);

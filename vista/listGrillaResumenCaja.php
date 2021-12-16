@@ -104,7 +104,7 @@ function verDetalle(fechaapertura,fechacierre,idapertura,idcierre){
 function reimprimirCierre(idapertura,idcierre){
     $.ajax({
         type: "POST",
-        url: "http://localhost/lasmusas/vista/ajaxPedido.php",        
+        url: "http://localhost/lasmusas9498/vista/ajaxPedido.php",        
         data:"accion=reimprimir_cierre&idapertura="+idapertura+"&idcierre="+idcierre,
         success: function(a) {
             alert("Imprimiendo");

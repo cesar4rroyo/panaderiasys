@@ -313,7 +313,7 @@ function ImprimirModal(){
 }
 
 function imprimirCierre(){
-    g_ajaxPagina.setURL("http://localhost/lasmusas/vista/ajaxPedido.php");
+    g_ajaxPagina.setURL("http://localhost/lasmusas97843874/vista/ajaxPedido.php");
     g_ajaxPagina.setRequestMethod("POST");
     g_ajaxPagina.setParameter("accion", "imprimir_cierre");
     g_ajaxPagina.setParameter("efectivo",$("#tdEfectivo").html());
@@ -337,7 +337,7 @@ function imprimirCierre(){
 
 function imprimirStock(){
     var g_ajaxPagina2 = new AW.HTTP.Request;
-    g_ajaxPagina2.setURL("http://localhost/lasmusas/vista/ajaxPedido.php");
+    g_ajaxPagina2.setURL("http://localhost/lasmusas784378/vista/ajaxPedido.php");
     g_ajaxPagina2.setRequestMethod("POST");
     g_ajaxPagina2.setParameter("accion", "imprimir_stock");
     g_ajaxPagina2.response = function(text){

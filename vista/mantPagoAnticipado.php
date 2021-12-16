@@ -90,7 +90,7 @@ function declarar2(idventa,idtipodocumento){
 }
 
 function imprimir3(idventa){
-    g_ajaxPagina.setURL("http://localhost/lasmusas/vista/ajaxPedido.php");
+    g_ajaxPagina.setURL("http://localhost/lasmusas9438943/vista/ajaxPedido.php");
     g_ajaxPagina.setRequestMethod("POST");
     g_ajaxPagina.setParameter("accion", "imprimir_ventaelectronica");
     g_ajaxPagina.setParameter("idventa",idventa);
@@ -178,7 +178,7 @@ function verificaNroDoc(nro,tipo)
 		g_ajaxPagina.request();
 }
 function imprimirEgreso(id){
-    g_ajaxGrabar.setURL("http://localhost/lasmusas/vista/ajaxPedido.php");
+    g_ajaxGrabar.setURL("http://localhost/lasmusas43784/vista/ajaxPedido.php");
 	g_ajaxGrabar.setRequestMethod("POST");
 	g_ajaxGrabar.setParameter("accion", "imprimir_egreso");
 	g_ajaxGrabar.setParameter("id", id);

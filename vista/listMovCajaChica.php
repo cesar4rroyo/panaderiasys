@@ -152,7 +152,7 @@ function editarModoPago(idmovimiento){
     setRun('vista/frmEditarModoPago','ajax=true&accion=ACTUALIZAR&clase=Movimiento&id_clase=44&Id=' + idmovimiento,'frame','carga','imgloading');
 }
 function imprimirEgreso(id){
-    g_ajaxGrabar.setURL("http://localhost/lasmusas/vista/ajaxPedido.php?ajax=true");
+    g_ajaxGrabar.setURL("http://localhost/lasmusas4874578/vista/ajaxPedido.php?ajax=true");
 	g_ajaxGrabar.setRequestMethod("POST");
 	g_ajaxGrabar.setParameter("accion", "imprimir_egreso");
 	g_ajaxGrabar.setParameter("id", id);

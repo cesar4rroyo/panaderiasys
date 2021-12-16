@@ -14,7 +14,7 @@ contenido = contenido + document.getElementById(que).innerHTML + "</div></body><
 ventana.document.open();
 ventana.document.write(contenido);
 ventana.document.close();*/
-        g_ajaxPagina.setURL("http://localhost/lasmusas/vista/ajaxPedido.php");
+        g_ajaxPagina.setURL("http://localhost/lasmusas878723/vista/ajaxPedido.php");
 		g_ajaxPagina.setRequestMethod("POST");
         if(document.getElementById('chkPorConsumo').checked){
             g_ajaxPagina.setParameter("consumo","S");    
