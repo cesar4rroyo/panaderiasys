@@ -14,7 +14,7 @@ class AccesoPostgres {
         $this->port = "5432";
         $this->dbname = "clifacturacion";
         $this->user = "postgres";
-        $this->pass = "Garzasoft-Lasmusas";
+        $this->pass = "Garzasoft-djlksjldksjlksdjlk";
         $conn_string = "host=$this->host port=$this->port dbname=$this->dbname user=$this->user password=$this->pass";
         try{
             //$this->conexion = pg_pconnect($conn_string);

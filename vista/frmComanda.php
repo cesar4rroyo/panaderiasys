@@ -265,7 +265,7 @@ function aceptar(){
                         if(text!='La mesa está ocupada'){
                             eval(text);
                             if(vmsg=="Guardado correctamente"){
-                                imprimirTicket(vidpedido,comanda);
+                                // imprimirTicket(vidpedido,comanda);
                                 setRun("vista/frmComanda","&idmesa=<?=$_GET["idmesa"]?>&mesa=<?=$_GET["mesa"]?>&salon="+document.getElementById("Salon").value+"&accion=NUEVO","frame","frame","imgloading");
                             }else{
                                 alert("Error al momento de registrar el pedido, porfavor vuelva a intentar registrar su pedido");
@@ -343,16 +343,16 @@ function aceptarCajero(){
                                 //if($_SERVER['REMOTE_ADDR']!="192.168.1.56" && $_SERVER['REMOTE_ADDR']!="192.168.1.57"){
                                 ?>
                                 if(tot2>0.9){
-                                    imprimirTicket(vidpedido,vcomanda,idtipodocumento,mesero);
+                                    // imprimirTicket(vidpedido,vcomanda,idtipodocumento,mesero);
                                 }
                                 <?php
                                 //}
                                 ?>
                                 if(idtipodocumento!="19"){
-                                    declarar(vidventa,idtipodocumento);
+                                    // declarar(vidventa,idtipodocumento);
                                 }else{
                                     if(tot2>0.9){
-                                        imprimir2(vidventa);
+                                        // imprimir2(vidventa);
                                     }
                                 }
                                 setRun("vista/frmComanda","&idmesa=<?=$_GET["idmesa"]?>&mesa=<?=$_GET["mesa"]?>&salon="+document.getElementById("Salon").value+"&accion=NUEVO","frame","frame","imgloading");
