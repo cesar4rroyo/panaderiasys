@@ -45,6 +45,136 @@ if($_GET["accion"]=="ACTUALIZAR"){
 ?>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+    .form-control {
+    border: 1px solid black;
+    border-radius: 3px;
+    box-shadow: none !important;
+    margin-bottom: 15px;
+}
+
+.form-control:focus {
+    border: 1px solid #34495e;
+}
+
+.select2.select2-container {
+  width: 100% !important;
+}
+
+.select2.select2-container .select2-selection {
+  border: 1px solid black;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  height: 34px;
+  margin-bottom: 15px;
+  outline: none !important;
+  transition: all .15s ease-in-out;
+}
+
+.select2.select2-container .select2-selection .select2-selection__rendered {
+  color: #333;
+  line-height: 32px;
+  padding-right: 33px;
+}
+
+.select2.select2-container .select2-selection .select2-selection__arrow {
+  background: #f8f8f8;
+  border-left: 1px solid black;
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+  height: 32px;
+  width: 33px;
+}
+
+.select2.select2-container.select2-container--open .select2-selection.select2-selection--single {
+  background: #f8f8f8;
+}
+
+.select2.select2-container.select2-container--open .select2-selection.select2-selection--single .select2-selection__arrow {
+  -webkit-border-radius: 0 3px 0 0;
+  -moz-border-radius: 0 3px 0 0;
+  border-radius: 0 3px 0 0;
+}
+
+.select2.select2-container.select2-container--open .select2-selection.select2-selection--multiple {
+  border: 1px solid #34495e;
+}
+
+.select2.select2-container .select2-selection--multiple {
+  height: auto;
+  min-height: 34px;
+}
+
+.select2.select2-container .select2-selection--multiple .select2-search--inline .select2-search__field {
+  margin-top: 0;
+  height: 32px;
+}
+
+.select2.select2-container .select2-selection--multiple .select2-selection__rendered {
+  display: block;
+  padding: 0 4px;
+  line-height: 29px;
+}
+
+.select2.select2-container .select2-selection--multiple .select2-selection__choice {
+  background-color: #f8f8f8;
+  border: 1px solid black;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 4px 4px 0 0;
+  padding: 0 6px 0 22px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+  position: relative;
+}
+
+.select2.select2-container .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  margin: 0;
+  text-align: center;
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.select2-container .select2-dropdown {
+  background: transparent;
+  border: none;
+  margin-top: -5px;
+}
+
+.select2-container .select2-dropdown .select2-search {
+  padding: 0;
+}
+
+.select2-container .select2-dropdown .select2-search input {
+  outline: none !important;
+  border: 1px solid #34495e !important;
+  border-bottom: none !important;
+  padding: 4px 6px !important;
+}
+
+.select2-container .select2-dropdown .select2-results {
+  padding: 0;
+}
+
+.select2-container .select2-dropdown .select2-results ul {
+  background: #fff;
+  border: 1px solid #34495e;
+}
+
+.select2-container .select2-dropdown .select2-results ul .select2-results__option--highlighted[aria-selected] {
+  background-color: #3498db;
+}
+</style>
 <script>
 function inicio(){
     <?php if($_SESSION["R_IdPerfil"]==5){?>
@@ -1227,7 +1357,7 @@ $('.select2').select2({
         <div class="Botones" id="opciones" style="height: 660px;">
             <div class="row DetalleMesa-Izq" >
                 <h4>LISTADO DE PRODUCTOS</h4>
-                <div class="col s12 center" style="height: 50px;">
+                <div class="col s12 center" style="height: 90px; margin: 10px">
                 <?php
                     if($_SESSION["R_PrecioVenta"]=="J"){
                         $precio="";
@@ -1247,7 +1377,7 @@ $('.select2').select2({
                             <button type="button" class='btn light-green darken-4 white-text' style='height: 45px;margin-top: 5px;' onclick="modalPropiedades2(<?=$dat->idcategoria?>,'<?=$dat->idproducto?>@<?=$dat->descripcion?>@<?=$_SESSION["R_IdSucursal"]?>')"><?=substr($dat->abreviatura,0,16)?></button>
                         </div>
                     <?php
-                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 60px;">';
+                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 90px; margin: 10px">';
                         }
                     }else{
                         //BOTONES MAS PRINCIPALES
@@ -1256,33 +1386,33 @@ $('.select2').select2({
                         while($dat=$rs->fetchObject()){
                         	if($dat->idproducto=="69"){
                                 $x++;
-                    ?>
+                     ?>
                     	<div class="col l2 center">
                             <button type="button" class='btn light-orange darken-4 black-text' style='font:bold;height: 45px;margin-top: 5px;' onclick="tipo='T';seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,0.5);$('#txtAccionPropiedad').val('Nuevo');">0.5<?=substr($dat->abreviatura,0,16)?></button>
                         </div>
                         <?php
-                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 50px;">';
+                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 90px; margin: 10px">';
                             $x=$x+1;
                         ?>
                         <div class="col l2 center">
                             <button type="button" class='btn light-orange darken-4 black-text' style='font:bold;height: 45px;margin-top: 5px;' onclick="tipo='T';seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,1);$('#txtAccionPropiedad').val('Nuevo');">1.00 <?=substr($dat->abreviatura,0,16)?></button>
                         </div>
                         <?php
-                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 50px;">';
+                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 90px; margin: 10px">';
                             $x=$x+1;
                         ?>
                         <div class="col l2 center">
                             <button type="button" class='btn light-orange darken-4 black-text' style='font:bold;height: 45px;margin-top: 5px;' onclick="tipo='T';seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,1.5);$('#txtAccionPropiedad').val('Nuevo');">1.5 <?=substr($dat->abreviatura,0,16)?></button>
                         </div>
                         <?php
-                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 50px;">';
+                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 90px; margin: 10px">';
                             $x=$x+1;
                         ?>
                         <div class="col l2 center">
                             <button type="button" class='btn light-orange darken-4 black-text' style='font:bold;height: 45px;margin-top: 5px;' onclick="tipo='T';seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,2.0);$('#txtAccionPropiedad').val('Nuevo');">2.0 <?=substr($dat->abreviatura,0,16)?></button>
                         </div>
                     <?php 
-                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 50px;">';
+                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 90px; margin: 10px">';
                     	}elseif($dat->idproducto=="98"){
                             $x++;
                             //$x=$x+1;
@@ -1291,28 +1421,7 @@ $('.select2').select2({
                             <button type="button" class='btn light-orange darken-4 black-text' style='font:bold;height: 45px;margin-top: 5px;' onclick="tipo='T';seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,1);$('#txtAccionPropiedad').val('Nuevo');">1 <?=substr($dat->abreviatura,0,16)?></button>
                         </div>
                         <?php
-                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 50px;">';
-                            /*$x=$x+1;
-                        ?>
-                        <div class="col l2 center">
-                            <button type="button" class='btn light-orange darken-4 black-text' style='font:bold;height: 45px;margin-top: 5px;' onclick="tipo='T';seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,2);$('#txtAccionPropiedad').val('Nuevo');">2 <?=substr($dat->abreviatura,0,16)?></button>
-                        </div>
-                        <?php
-                            if($x%6==0) echo '</div><div class="col s12 center" style="height: 50px;">';
-                            $x=$x+1;
-                        ?>
-                        <div class="col l2 center">
-                            <button type="button" class='btn light-orange darken-4 black-text' style='font:bold;height: 45px;margin-top: 5px;' onclick="tipo='T';seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,4);$('#txtAccionPropiedad').val('Nuevo');">4 <?=substr($dat->abreviatura,0,16)?></button>
-                        </div>
-                        <?php
-                            if($x%6==0) echo '</div><div class="col s12 center" style="height: 50px;">';
-                            $x=$x+1;
-                        ?>
-                        <div class="col l2 center">
-                            <button type="button" class='btn light-orange darken-4 black-text' style='font:bold;height: 45px;margin-top: 5px;' onclick="tipo='T';seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,5);$('#txtAccionPropiedad').val('Nuevo');">5 <?=substr($dat->abreviatura,0,16)?></button>
-                        </div>
-                    <?php  */
-                            //if($x%6==0) echo '</div><div class="col s12 center" style="height: 50px;">';
+                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 90px; margin: 10px">';
                         }
                         $x++;
                     ?>
@@ -1324,10 +1433,12 @@ $('.select2').select2({
                         	<?php } ?>
                         </div>
                         <?php
-                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 50px;">';
+                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 90px; margin: 10px">';
                         }
                         //ACCESO RAPIDO
-                        $rs=$objMantenimiento->obtenerDataSQL("select p.*,lu.precioventa$precio as precio from producto p inner join listaunidad lu on lu.idproducto=p.idproducto and lu.idunidad=p.idunidadbase and lu.idsucursal=p.idsucursal and lu.idsucursalproducto=p.idsucursal inner join categoria ca on ca.idcategoria=p.idcategoria and p.idsucursal=ca.idsucursal where p.estado='N' and p.comentario like 'PRINCIPAL'  and p.idsucursal=".$_SESSION["R_IdSucursal"]."  order by ca.descripcion,p.codigo asc limit 500");
+                        $sql = "select p.*,lu.precioventa$precio as precio from producto p inner join listaunidad lu on lu.idproducto=p.idproducto and lu.idunidad=p.idunidadbase and lu.idsucursal=p.idsucursal and lu.idsucursalproducto=p.idsucursal inner join categoria ca on ca.idcategoria=p.idcategoria and p.idsucursal=ca.idsucursal where p.estado='N' and p.comentario like 'PRINCIPAL'  and p.idsucursal=".$_SESSION["R_IdSucursal"]."  order by ca.descripcion,p.codigo asc limit 500";
+                        // echo $sql;
+                        $rs=$objMantenimiento->obtenerDataSQL($sql);
                         /*cambie para hacerlo mas rapido
                             modalPropiedades2(<?=$dat->idcategoria?>,'<?=$dat->idproducto?>@<?=$dat->descripcion?>@<?=$_SESSION["R_IdSucursal"]?>')*/
                         while($dat=$rs->fetchObject()){
@@ -1354,22 +1465,34 @@ $('.select2').select2({
                             }else{
                         ?>
                         <div class="col l2 center">
-                            <button type="button" class='btn <?=$color?> darken-3 white-text' <?php if($dat->precio==0) echo "disabled";?> style='height: 45px;margin-top: 5px;' onclick="seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,1);$('#txtAccionPropiedad').val('Nuevo');"><?=substr($dat->abreviatura,0,16)?></button>
+                            <div class="col" style="height: 20px !important; width:150px !important">
+                                <div style="cursor: pointer;" class="card darken-1" onclick="seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,1);$('#txtAccionPropiedad').val('Nuevo');">
+                                    <p style="text-align: center; line-height: 50px; font-weight:bold" class=" text-center text-capitalize bold"><?=substr($dat->abreviatura,0,12)?></p>
+                                    <div class="card-action light-green" style="height:40px; padding:4px;">
+                                    <?="S/. " . number_format($dat->precio,2)?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <?php
-
                             }
-                            if($x%5==0) echo '</div><div class="col s12 center" style="height: 50px;">';
+                            if($x%5==0) echo '</div><div class="col s12 center" style="90px; margin: 10px">';
                         }
-                        //echo '</div><div class="col s12 center" style="height: 50px;">';
-                        $sql="Select vIdCategoria, vAbreviatura,vIdCategoriaref,vDescripcion as Descripcion,vimagen from up_buscarcategoriaproductoarbol(".$_SESSION['R_IdSucursal'].") where vnivel=1 and vidcategoria not in (1,11,20,18) order by vDescripcion ASC";
+                        //echo '</div><div class="col s12 center" style="height: 90px; margin: 10px">';
+                        $sql="Select vIdCategoria, vAbreviatura,vIdCategoriaref,vDescripcion as Descripcion,vimagen from up_buscarcategoriaproductoarbol(".$_SESSION['R_IdSucursal'].") where vnivel=1 order by vDescripcion ASC";
                         $consulta2 = $objMantenimiento->obtenerDataSQL($sql);
                         $d=$consulta2->rowCount();
+                        // die();
                         while($dato=$consulta2->fetchObject()){$x++;
                         ?>
                             <div class="col l2 center">
-                              <select class='select2 light-blue darken-4 white-text' id="cboCategoria<?=$dato->vidcategoria?>" onchange="modalPropiedades2(<?=$dato->vidcategoria?>,this.value);" style="width: 90%;">
-                                  <option value='0' ><?=$dato->descripcion?></option>
+                                <div class="col" style="height: 20px !important; width:150px !important">
+                                    <div style="cursor: pointer;" class="card darken-aw-cb-1">
+                                        <p style="text-align: center; line-height: 50px; font-weight:bold; text-decoration: underline;" class=" text-center text-capitalize bold"><?=substr($dato->descripcion,0,12)?></p>
+                                        <div class="card-action" style="height:40px; padding:4px;">
+                                        
+                              <select class="select2 form-control" id="cboCategoria<?=$dato->vidcategoria?>" onchange="modalPropiedades2(<?=$dato->vidcategoria?>,this.value);" style="width: 90%;">
+                                  <option value='0' >Seleccione...</option>
                         <?php
                             $rs=$objMantenimiento->obtenerDataSQL("select p.*,obtenerStock(P.idproducto,P.idunidadbase,".$_SESSION["R_IdSucursal"].", P.IdSucursal) as Stock from producto p inner join listaunidad lu on lu.idproducto=p.idproducto and lu.idunidad=p.idunidadbase and lu.idsucursal=p.idsucursal and lu.idsucursalproducto=p.idsucursal where p.estado='N' and p.idcategoria=$dato->vidcategoria and lu.precioventa$precio>0 and p.idsucursal=".$_SESSION["R_IdSucursal"]." and p.comentario not like 'PRINCIPAL' and p.comentario not like 'PRINCIPAL1'  order by p.abreviatura asc limit 40");
                             //print_r($rs);
@@ -1378,9 +1501,11 @@ $('.select2').select2({
                                 <option value='<?=$dat->idproducto?>@<?=$dat->descripcion."(".$dat->stock.")"?>@<?=$_SESSION["R_IdSucursal"]?>'><?=substr($dat->abreviatura,0,16)?></option>
                         <?php
                         }
-                            echo "</select></div>";
+                            echo "</select></div></div>
+                            </div>
+                        </div>";
 
-                        if($x%5==0) echo '</div><div class="col s12 center" style="height: 50px;">';
+                        if($x%5==0) echo '</div><div class="col s12 center" style="height: 90px; margin: 10px">';
                         }
                     }
                 ?>
@@ -1467,13 +1592,13 @@ $('.select2').select2({
                         <div class="col s12">
                             <p class=" input-field inline" style="margin-top: 0px;">
                                 <input type="radio" value="OTROS" name="rdbtnModoPago" id="chbxOTROS" onchange="if(this.checked){$('#divEfectivo').hide();$('#divTarjeta').hide();$('#divAmbos').hide();$('#divCheque').hide();$('#divDeposito').hide();$('#divTransferencia').hide();$('#divOtros').show();$('#divEfectivo2').hide();}">
-                                <label for="chbxOTROS">OTROS</label>
+                                <label for="chbxOTROS">VARIOS</label>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="divEfectivo"  class="col s12 m9 l9">
+            <div id="divEfectivo"  class="col s12 m9 l9 center" style="margin-top: 50px;">
                 <div class="col s12 m9 l9">
                     <button type="button" class="btn col s2 m1 l1 " style="margin-right: 5px;display: none;" onclick="BotonesDinero(5);$('#txtDinero').trigger('keyup');$('#txtDinero').focus();">5</button>
                     <button type="button" class="btn col s2 m2 l2 " style="margin-right: 5px;" onclick="BotonesDinero(10);$('#txtDinero').trigger('keyup');calcularVuelto();">10</button>
@@ -1518,7 +1643,7 @@ $('.select2').select2({
                     <label class="labelSuperior">Tipo</label>
                 </div>
             </div>
-            <div id="divEfectivo2"  class="col s12 m9 l9">
+            <div id="divEfectivo2"  class="col s12 m9 l9" style="margin-top: 40px;">
                 <div class="col s3 m3 l3" >
                     <div class="input-field inline">
                         <input type="text" class="inptCantidad" id="txtDinero" value="0" readonly="" onfocus="modalNumero('txtDinero');">

@@ -105,7 +105,7 @@ class clsAccesoDatos{
 	//Servidor de Base de Datos
 	private $gServidor = "localhost";
 	//Nombre de Base de Datos
-	private $gBaseDatos = "bdpanaderia2";
+	private $gBaseDatos = "bdpanaderia";
 	//Nombre de Usuario
 	//Tipo de Base Datos
 	private $gTipoBD = 3; //1=SQLSERVER, 2=MYSQL, 3=POSTGRESQL
@@ -127,7 +127,7 @@ class clsAccesoDatos{
 		if($this->gTipoBD==3){
 			$this->gServidor = "localhost";
 			$user='postgres';
-			$pass='Garzasoft-Lasmusas';
+			$pass='root';
 		}
 		// Crea una Conexion SQLSERVER 2000
 		//try {
