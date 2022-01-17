@@ -127,7 +127,7 @@ class clsAccesoDatos{
 		if($this->gTipoBD==3){
 			$this->gServidor = "localhost";
 			$user='postgres';
-			$pass='Garzasoft-Lasmusas';
+			$pass='root';
 		}
 		// Crea una Conexion SQLSERVER 2000
 		//try {

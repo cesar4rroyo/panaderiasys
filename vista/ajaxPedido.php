@@ -2176,4 +2176,12 @@ if($action=="EnviarURL"){
     echo $data;
     curl_close($ch);
 }
+if($action=="ENTREGAR"){
+	require("../modelo/clsMovimiento.php");
+	$objMovimiento = new clsMovimiento(46,$_SESSION['R_IdSucursal'],$_SESSION['R_NombreUsuario'],$_SESSION['R_Clave']);
+    $idventa=$_POST["idventa"];
+
+	$objMovimiento->ejecutarSQL("UPDATE movimientohoy set entregado='S' where idmovimiento=".$idventa);
+	echo "ACTUALIZADO";
+}
 ?>

@@ -458,7 +458,7 @@ switch($accion){
 		$dato=$res->fetchObject();
 	    $idpedido = $dato->idmovimiento;
 		//ACTUALIZAR CON NOMBRE DE IMPRESION
-		$objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy set nombrespersona='".$_POST["txtNombreImprimir"]."' where idmovimiento=".$idpedido);
+		$objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy set nombrespersona='".$_POST["txtNombreImprimir"]."@@".$_POST["txtNumeroImprimir"]."' where idmovimiento=".$idpedido);
 		//INICIO BITACORA
 		date_default_timezone_set('America/Lima');
 		$objBitacora->insertarBitacora($_SESSION["R_NombreUsuario"], $_SESSION['R_Perfil'], 10, 'Nuevo Registro', 'idconceptopago=>0; idsucursal=>'.$_SESSION['R_IdSucursal'].'; idtipomovimiento=>5; numero=>'.$_POST["txtNumeroComanda"].'; idtipodocumento=>11; formapago=>; fecha=>'.date("d/m/Y").'; fechaproximacancelacion=>; fechaultimopago=>; nropersonas=>'.$_POST["Nropersonas"].'; idmesa=>'.$_POST["Idmesa"].'; moneda=>S; inicial=>0; subtotal=>'.$_POST["txtTotal"].'; igv=>0; total=>'.$_POST["txtTotal"].'; totalpagado=>0; idusuario=>'.$_SESSION['R_IdUsuario'].'; tipopersona=>P; idpersona=>0; idresponsable=>'.$_SESSION['R_IdPersona'].'; idmovimientoref=>; idsucursalref=>; comentario=>'."-".'; situacion=>O; estado=>N; idcaja=>0; idsucursalusuario=>'.$_SESSION['R_IdSucursalUsuario'].'; idsucursalpersona=>0; idsucursalresponsable=>'.$_SESSION['R_IdSucursalUsuario'].'; nombrespersona=>'." ", $_SESSION['R_IdSucursal'], $dato->idmovimiento ,$_SESSION['R_IdUsuario'],$_SESSION['R_IdSucursalUsuario']);
@@ -645,6 +645,7 @@ switch($accion){
     		}
     		$dato=$rst->fetchObject();
             $objMovimientoAlmacen->ejecutarSQL("update movimientohoy set manual='N' where idmovimiento=".$dato->idmovimiento." and idsucursal=".$_SESSION["R_IdSucursal"]);
+			$objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy set nombrespersona='".$_POST["txtNombreImprimir"]."@@".$_POST["txtNumeroImprimir"]."' where idmovimiento=".$dato->idmovimiento);
 			// //ACTUALIZAR CON NOMBRE DE IMPRESION
 			// $objMovimientoAlmacen->ejecutarSQL("UPDATE movimientohoy set nombrespersona='".$_POST["txtNombreImprimir"]."' where idmovimiento=".$dato->idmovimiento);
             

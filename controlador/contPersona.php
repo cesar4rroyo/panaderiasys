@@ -68,7 +68,8 @@ switch($accion){
 				$objPersona->finalizarTransaccion(); 
 				$objBitacora->finalizarTransaccion(); 
 				if(ob_get_length()) ob_clean();
-				echo "Guardado correctamente";
+				$nombres_completo = $_POST["txtApellidos"]." ".$_POST["txtNombres"];
+				echo "Guardado correctamente@@" . $idregistro . "@@" . $_POST["txtIdSucursal"] . "@@" . $nombres_completo;
 			}
 		}
 		break;

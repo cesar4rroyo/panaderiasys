@@ -656,7 +656,7 @@ function centraDivSucursal(){
     }
 } 
 
-function listadoPersona2(){
+function listadoPersona2(id = null, sucursal = null, nombres = null){
     $.ajax({
         url: "vista/ajaxPersonaMaestro.php",
         type: 'POST',
@@ -667,11 +667,19 @@ function listadoPersona2(){
             $("#txtPersona").autocomplete({
                 data: datos
             },selecctionarPersona,"");
+        },
+        complete: function() {
+            if(id != null || sucursal != null){
+                $("#txtPersona").val(nombres);
+                selecctionarPersona(sucursal + '|' + id);
+            }
         }
     });
+    
 }
 
 function selecctionarPersona(dato){
+    console.log(dato);
     var ids = dato.split("|");
     $('#txtIdSucursalPersona').val(ids[0]);
     $('#txtIdPersona').val(ids[1]);
@@ -854,6 +862,14 @@ function aceptarModalPersona(){
     setParametrosModalPersona();
     g_ajaxGrabar.response = function(text){
         loading(false, "loading");
+        let long = text.split("@@");
+        if(long.length>0){
+            let msg = text.split('@@')[0];
+            let idpersona = text.split('@@')[1];
+            let idsucursal = text.split('@@')[2];
+            let nombres = text.split('@@')[3];
+            listadoPersona2(idpersona, idsucursal, nombres);
+        }
         alert(text);
         listadoPersona2();
         $('#modalNuevoPersona').closeModal();
@@ -1290,6 +1306,22 @@ function calcularTotalPagoAnticipado(){
     document.getElementById("divTotal").innerHTML="IMPORTE TOTAL S/."+document.getElementById("txtTotal").value;
 }
 
+function entregar(id){
+    var g_ajaxPagina2 = new AW.HTTP.Request;
+    g_ajaxPagina2.setURL("vista/ajaxPedido.php");
+    g_ajaxPagina2.setRequestMethod("POST");
+    g_ajaxPagina2.setParameter("idventa",id);
+    g_ajaxPagina2.setParameter("accion","ENTREGAR");
+    g_ajaxPagina2.response = function(text){
+       alert(text + ' CORRECTAMENTE');
+       if(text=='ACTUALIZADO'){
+            $('#'+id).attr('disabled','disabled');
+            $('#'+id).text('ENTREGADO');
+       }
+    };
+    g_ajaxPagina2.request();
+}
+
 $('#divEfectivo').show();$('#divTarjeta').hide();$('#divAmbos').hide();$('#divCheque').hide();$('#divDeposito').hide();$('#txtDinero').val('0');$('#txtVuelto').val('0');$('#divSelectTarjeta').html('');$('#divSelectAmbos').html('');
 $('.select2').select2({
 	theme:"classic"
@@ -1560,6 +1592,10 @@ $('.select2').select2({
                     <input type="text" id="txtNombreImprimir" name="txtNombreImprimir" value="<?php if($_GET["accion"]=="ACTUALIZARPAGO"){ echo htmlentities(umill(substr($dato["fecha"],0,10)), ENT_QUOTES, "UTF-8"); }else{ echo " ";}?>">
                     <label for="txtNombreImprimir">Nombre Cliente</label>
                 </div>
+                <div class="input-field inline">
+                    <input type="text" id="txtNumeroImprimir" name="txtNumeroImprimir" value="<?php if($_GET["accion"]=="ACTUALIZARPAGO"){ echo htmlentities(umill(substr($dato["fecha"],0,10)), ENT_QUOTES, "UTF-8"); }else{ echo " ";}?>">
+                    <label for="txtNumeroImprimir">Teléfono Cliente</label>
+                </div>
             </div>
             <div class="col s12 m6 l3" id="divModoPago">
                 <label style="margin-left: 15px;" class="col s12 left-align labelSuperior">Modo de Pago</label>
@@ -1642,6 +1678,11 @@ $('.select2').select2({
                     </select>
                     <label class="labelSuperior">Tipo</label>
                 </div>
+                <div class="input-field inline">
+                    <input type="text" name="referenciaPlinYape">
+                    <label class="labelSuperior">Referencia</label>
+                </div>
+
             </div>
             <div id="divEfectivo2"  class="col s12 m9 l9" style="margin-top: 40px;">
                 <div class="col s3 m3 l3" >
@@ -1700,8 +1741,12 @@ $('.select2').select2({
             <br />
             <div class="" id="divTarjeta" hidden>
                 <div class="col s12 l3">
-                    <div class="input-field inline" id="divSelectTarjeta">
+                    <div class="input-field inline" id="divSelectTarjeta" style="padding-bottom: 25px !important;">
                     </div>
+                </div>
+                <div class="col s12 l3">
+                    <label class="labelSuperior">Nro. de Operación</label>
+                    <input type="text" name="nroOperacion">
                 </div>
             </div>
             <div class="row">
@@ -1953,20 +1998,32 @@ $('.select2').select2({
                                         <th class="center">Comanda</th>
                                         <th class="center">Comprobante</th>
                                         <th class="center">Total</th>
+                                        <th class="center">WhatsApp</th>
                                         <th class="center">I. Tick</th>
                                         <th class="center">I. Comp</th>
                                         <th class="center">I. Ambos</th>
                                         <th class="center">Anular</th>
+                                        <th class="center">Entregado</th>
                                         <th></th>
                                     </tr>    
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $rst=$objMantenimiento->obtenerDataSQL("select m.numero,m.total,(select numero from movimientohoy where idmovimiento=ds.idpedido) as numero2,m.estado,ds.idpedido,ds.idventa,m.fecha,m.situacion
-                                        from detallestock ds 
-                                        inner join movimientohoy m on m.idmovimiento=ds.idventa
-                                        where 1=1 and m.idcaja=".$_SESSION["R_IdCaja"]." order by m.fecha desc limit 100");
+                                    $sql = "select m.numero,m.total,(select numero from movimientohoy where idmovimiento=ds.idpedido) as numero2,m.estado,ds.idpedido,ds.idventa,m.fecha,m.situacion, m.nombrespersona, m.entregado 
+                                    from detallestock ds 
+                                    inner join movimientohoy m on m.idmovimiento=ds.idventa
+                                    where 1=1 and m.idcaja=".$_SESSION["R_IdCaja"]." order by m.fecha desc limit 100";
+                                    // echo $sql;
+                                    $rst=$objMantenimiento->obtenerDataSQL($sql);
                                     while($dat=$rst->fetchObject()){
+                                        //setear numero del cliente
+                                        $numero_wsp = $dat->nombrespersona;
+                                        $numero_wsp = explode("@@",$numero_wsp);
+                                        if(count($numero_wsp)>1){
+                                            $numero_wsp = $numero_wsp[1];
+                                        }else{
+                                            $numero_wsp = '999999999';
+                                        }
                                         if($dat->estado!="A" && $dat->estado!="I"){
                                             echo "<tr id='Venta-$dat->idventa'>";
                                         }else{
@@ -1976,13 +2033,22 @@ $('.select2').select2({
                                         echo "<td align='center'>$dat->numero2</td>";
                                         echo "<td align='center'>".substr($dat->numero,0,13)."</td>";
                                         echo "<td class='right'>".number_format($dat->total,2,'.','')."</td>";
+                                        echo "<td class='center'><a href='https://api.whatsapp.com/send?phone=51".$numero_wsp."&text=Hola%2C+tu+pedido+ya+esta+listo%2C+puedes+pasar+a+recogerlo%21%21%21' target='_blank'>".$numero_wsp."</a></td>";
                                         echo '<td><p class="input-field inline" style="margin-top: 0px;" ><input type="radio" onchange="if(this.checked){$(\'#txtHistorialVenta\').val(this.value);}" value="T@'.$dat->idpedido.'@'.$dat->idventa.'" id="rdAccionT'.$dat->idpedido.'" name="rdAccion" /><label for="rdAccionT'.$dat->idpedido.'" id="lblT'.$dat->idpedido.'">Tick</label></p></td>';
                                         echo '<td><p class="input-field inline" style="margin-top: 0px;" ><input type="radio" onchange="if(this.checked){$(\'#txtHistorialVenta\').val(this.value);}" value="C@'.$dat->idpedido.'@'.$dat->idventa.'" id="rdAccionC'.$dat->idpedido.'" name="rdAccion" /><label for="rdAccionC'.$dat->idpedido.'" id="lblC'.$dat->idpedido.'">Comp</label></p></td>';
                                         echo '<td><p class="input-field inline" style="margin-top: 0px;" ><input type="radio" onchange="if(this.checked){$(\'#txtHistorialVenta\').val(this.value);}" value="A@'.$dat->idpedido.'@'.$dat->idventa.'" id="rdAccionA'.$dat->idpedido.'" name="rdAccion" /><label for="rdAccionA'.$dat->idpedido.'" id="lblA'.$dat->idpedido.'">Ambos</label></p></td>';
                                         if($dat->estado!="A" && $dat->estado!="I"){
                                             echo '<td><p class="input-field inline" style="margin-top: 0px;" ><input type="radio" onchange="if(this.checked){$(\'#txtHistorialVenta\').val(this.value);}" value="E@'.$dat->idpedido.'@'.$dat->idventa.'" id="rdAccionE'.$dat->idpedido.'" name="rdAccion" /><label for="rdAccionE'.$dat->idpedido.'" id="lblE'.$dat->idpedido.'">Anular</label></p></td>';
+                                            if($dat->entregado=='N'){
+                                                echo "<td><button type='button' onclick='entregar(".$dat->idventa.")' class='btn green' id='".$dat->idventa."'>Entregar</button></td>";
+                                            }else{
+                                                echo "<td><button type='button' disabled class='btn blue'>Entregado</button></td>";   
+                                            }
+                                            
                                         }else{
                                             echo "<td></td>";
+                                            echo "<td><button class='btn green' disabled>Anulado</button></td>";
+
                                         }
                                         echo "</tr>";
                                     }
