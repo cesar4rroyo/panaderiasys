@@ -1416,7 +1416,7 @@ $('.select2').select2({
                         $rs=$objMantenimiento->obtenerDataSQL("select p.* from producto p inner join listaunidad lu on lu.idproducto=p.idproducto and lu.idunidad=p.idunidadbase and lu.idsucursal=p.idsucursal and lu.idsucursalproducto=p.idsucursal where p.estado='N' and p.comentario like 'PRINCIPAL1' and lu.precioventa$precio>0 and p.idsucursal=".$_SESSION["R_IdSucursal"]."  order by p.codigo asc limit 50");
                         $x=0;
                         while($dat=$rs->fetchObject()){
-                        	if($dat->idproducto=="69"){
+                        	if($dat->idproducto=="98888"){
                                 $x++;
                      ?>
                     	<div class="col l2 center">
@@ -1445,7 +1445,7 @@ $('.select2').select2({
                         </div>
                     <?php 
                             if($x%5==0) echo '</div><div class="col s12 center" style="height: 90px; margin: 10px">';
-                    	}elseif($dat->idproducto=="98"){
+                    	}elseif($dat->idproducto=="99999"){
                             $x++;
                             //$x=$x+1;
                     ?>
@@ -1458,7 +1458,7 @@ $('.select2').select2({
                         $x++;
                     ?>
                         <div class="col l2 center">
-                        	<?php if($dat->idproducto=="69" || $dat->idproducto=="98" || $dat->idproducto=="101" || $dat->idproducto=="104"){ ?>
+                        	<?php if($dat->idproducto=="6999" || $dat->idproducto=="900000" || $dat->idproducto=="9999" || $dat->idproducto=="99999"){ ?>
                         	<button type="button" class='btn <?=$color?> darken-3 white-text' style='height: 45px;margin-top: 5px;' onclick="modalPropiedades2(<?=$dat->idcategoria?>,'<?=$dat->idproducto?>@<?=$dat->descripcion."(".$dat->stock.")"?>@<?=$_SESSION["R_IdSucursal"]?>');"><?=substr($dat->abreviatura,0,16)?></button>
                         	<?php }else{ ?>
                             <button type="button" class='btn light-orange darken-4 black-text' style='font:bold;height: 45px;margin-top: 5px;' onclick="seleccionar(<?=$dat->idproducto?>,<?=$_SESSION["R_IdSucursal"]?>,1);$('#txtAccionPropiedad').val('Nuevo');"><?=substr($dat->abreviatura,0,16)?></button>
@@ -1474,21 +1474,21 @@ $('.select2').select2({
                         /*cambie para hacerlo mas rapido
                             modalPropiedades2(<?=$dat->idcategoria?>,'<?=$dat->idproducto?>@<?=$dat->descripcion?>@<?=$_SESSION["R_IdSucursal"]?>')*/
                         while($dat=$rs->fetchObject()){
-                        	if($dat->idcategoria==13){
+                        	if($dat->idcategoria==1){
                         		$color="light-blue";
-                        	}elseif($dat->idcategoria==11){
+                        	}elseif($dat->idcategoria==2){
                         		$color="yellow";
-                        	}elseif($dat->idcategoria==19){
+                        	}elseif($dat->idcategoria==3){
                         		$color="pink";
-                        	}elseif($dat->idcategoria==12){
-                        		$color="light-pink";
                         	}elseif($dat->idcategoria==4){
+                        		$color="light-pink";
+                        	}elseif($dat->idcategoria==5){
                         		$color="brown";
                         	}else{
                         		$color="light-green";
                         	}
                         	$x++;
-                            if($dat->idproducto=="69"){
+                            if($dat->idproducto=="1999"){
                     ?>
                         <div class="col l2 center">
                             <button type="button" class='btn <?=$color?> darken-3 white-text' <?php if($dat->precio==0) echo "disabled";?> style='height: 45px;margin-top: 5px;' onclick="modalPropiedades2(<?=$dat->idcategoria?>,'<?=$dat->idproducto?>@<?=$dat->descripcion."(".$dat->stock.")"?>@<?=$_SESSION["R_IdSucursal"]?>');"><?=substr($dat->abreviatura,0,16)?></button>
