@@ -105,7 +105,7 @@ class clsAccesoDatos{
 	//Servidor de Base de Datos
 	private $gServidor = "localhost";
 	//Nombre de Base de Datos
-	private $gBaseDatos = "panaderia";
+	private $gBaseDatos = "bdpanaderia";
 	//Nombre de Usuario
 	//Tipo de Base Datos
 	private $gTipoBD = 3; //1=SQLSERVER, 2=MYSQL, 3=POSTGRESQL
